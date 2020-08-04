@@ -29,6 +29,15 @@ const rootQueryObject = new GraphQLObjectType({
       type: GraphQLList(item),
       resolve: () => itemsDB,
     },
+    item: {
+      type: item,
+      description: "Single Item Get By INDEX",
+      args: {
+        id: { type: GraphQLInt },
+      },
+      resolve: (item, args) =>
+        itemsDB.find((item) => itemsDB.indexOf(item) === args.id),
+    },
   }),
 });
 
