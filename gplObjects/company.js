@@ -8,7 +8,9 @@ const {
   GraphQLList,
   GraphQLNonNull,
   GraphQLSchema,
+  graphql,
 } = require("graphql");
+const item = require("./item");
 
 const company = new GraphQLObjectType({
   name: "company",
