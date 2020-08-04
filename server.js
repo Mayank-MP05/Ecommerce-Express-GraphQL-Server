@@ -8,16 +8,20 @@ const schema = buildSchema(`
   type Query {
     hello: String,
     name: String,
-    age: number
   }
 `);
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema: schema,
-    graphiql: true,
-  })
-);
+// Root resolver
+var root = {
+  hello: () => "Hello World!",
+  name: () => "MAyank Pachpande",
+};
+const graphQLObj = graphqlHTTP({
+  schema: schema,
+  rootValue: root,
+  graphiql: true,
+});
+
+app.use("/graphql", graphQLObj);
 app.get("/", (req, res) => {
   res.redirect("/graphql");
 });
