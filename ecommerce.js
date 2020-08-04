@@ -17,6 +17,8 @@ const companiesDB = require("./data/companies.json");
 //GraphQL Objects Imports
 const items = require("./gplObjects/items");
 const item = require("./gplObjects/item");
+const company = require("./gplObjects/company");
+const companies = require("./gplObjects/companies");
 
 const app = express();
 
@@ -27,6 +29,7 @@ const rootQueryObject = new GraphQLObjectType({
   fields: () => ({
     items: {
       type: GraphQLList(item),
+      description: "All Items Lisiting",
       resolve: () => itemsDB,
     },
     item: {
@@ -37,6 +40,20 @@ const rootQueryObject = new GraphQLObjectType({
       },
       resolve: (item, args) =>
         itemsDB.find((item) => itemsDB.indexOf(item) === args.id),
+    },
+    companies: {
+      description: "Get the List of all Manufacturers",
+      type: GraphQLList(company),
+      resolve: () => companiesDB,
+    },
+    company: {
+      type: company,
+      description: "Single Manufacturer Get By INDEX",
+      args: {
+        id: { type: GraphQLInt },
+      },
+      resolve: (cp, args) =>
+        companiesDB.find((cp) => companiesDB.indexOf(cp) === args.id),
     },
   }),
 });
