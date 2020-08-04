@@ -1,5 +1,5 @@
-const itemsDB = require("./data/items.json");
-const companiesDB = require("./data/companies.json");
+const itemsDB = require("../data/items.json");
+const companiesDB = require("../data/companies.json");
 const {
   GraphQLString,
   GraphQLBoolean,
@@ -15,21 +15,21 @@ const item = new GraphQLObjectType({
   description: "This returns single item as per argument passed",
   fields: () => ({
     imageUrl: {
-      type: new GraphQLString(),
+      type: GraphQLString,
     },
     name: {
-      type: new GraphQLString(),
+      type: GraphQLString,
     },
     description: {
-      type: new GraphQLString(),
+      type: GraphQLString,
     },
     manufacturer: {
-      type: new GraphQLString(),
+      type: GraphQLString,
     },
     itemType: {
-      type: new GraphQLString(),
+      type: GraphQLString,
     },
   }),
 });
 
-export default item;
+module.exports = item;

@@ -1,27 +1,40 @@
 const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
-const items = require("./data/items.json");
-const companies = require("./data/companies.json");
 const {
   GraphQLString,
   GraphQLBoolean,
   GraphQLObjectType,
   GraphQLInt,
   GraphQLNonNull,
+  GraphQLList,
   GraphQLSchema,
 } = require("graphql");
 
+//Data imports
+const itemsDB = require("./data/items.json");
+const companiesDB = require("./data/companies.json");
+
+//GraphQL Objects Imports
+const items = require("./gplObjects/items");
+const item = require("./gplObjects/item");
+
 const app = express();
 
-//Default Schema
-const schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: "DemoSchema",
-    description: "Used Just for the First Start",
-    fields: () => ({
-      testmsg: { type: GraphQLString, resolve: () => "Demo Schema Output" },
-    }),
+//Single Query Object
+const rootQueryObject = new GraphQLObjectType({
+  name: "allQueries",
+  description: "Contain all Object Queires",
+  fields: () => ({
+    items: {
+      type: GraphQLList(item),
+      resolve: () => itemsDB,
+    },
   }),
+});
+
+//Default Schema
+const rootQuerySchema = new GraphQLSchema({
+  query: rootQueryObject,
 });
 
 app.get("/", (req, res) => {
@@ -30,7 +43,7 @@ app.get("/", (req, res) => {
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema: schema,
+    schema: rootQuerySchema,
     graphiql: true,
   })
 );

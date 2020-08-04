@@ -1,5 +1,5 @@
-const itemsDB = require("./data/items.json");
-const companiesDB = require("./data/companies.json");
+const itemsDB = require("../data/items.json");
+const companiesDB = require("../data/companies.json");
 const {
   GraphQLString,
   GraphQLBoolean,
@@ -10,16 +10,16 @@ const {
   GraphQLSchema,
 } = require("graphql");
 
+const item = require("./item");
+
 const items = new GraphQLObjectType({
   name: "items",
   description: "This returns single item as per argument passed",
   fields: () => ({
-    items: {
-      type: new GraphQLList(),
-      description: "Array",
-      resolve: () => itemsDB,
-    },
+    type: GraphQLList(item),
+    description: "Array",
+    resolve: () => itemsDB,
   }),
 });
 
-export default items;
+module.exports = items;
