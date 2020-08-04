@@ -32,6 +32,9 @@ const company = new GraphQLObjectType({
     contact: {
       type: GraphQLString,
     },
+    slug: {
+      type: GraphQLString,
+    },
   }),
 });
 

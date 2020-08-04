@@ -9,7 +9,7 @@ const {
   GraphQLNonNull,
   GraphQLSchema,
 } = require("graphql");
-
+const company = require("./company");
 const item = new GraphQLObjectType({
   name: "item",
   description: "This returns single item as per argument passed",
@@ -28,6 +28,21 @@ const item = new GraphQLObjectType({
     },
     itemType: {
       type: GraphQLString,
+    },
+    manufacturerDetails: {
+      type: company,
+      resolve: (item) => {
+        let manufacturerInfo = companiesDB.find(
+          (cp) => cp.slug === item.manufacturer
+        );
+        // console.log(manufacturerInfo);
+        // let combined = {
+        //   ...item,
+        //   manufacturerDetails: manufacturerInfo,
+        // };
+        // console.log(combined);
+        return manufacturerInfo;
+      },
     },
   }),
 });
